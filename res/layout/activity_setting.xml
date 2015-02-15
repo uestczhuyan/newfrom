@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity" >
+
+ <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="left"
+       android:id="@+id/setting_open_tv"
+       android:text="起始数字:" 
+       android:padding="10dp"
+       android:textSize="20sp"
+       />
+ 
+ <EditText 
+     android:layout_width="wrap_content"
+     android:minWidth="50dp"
+     android:layout_height="wrap_content"
+     android:id="@+id/setting_patch_edit"
+     android:layout_alignBaseline="@+id/setting_open_tv"
+     android:layout_alignBottom="@+id/setting_open_tv"
+     android:layout_marginRight="10dp"
+     android:layout_alignParentRight="true" 
+     android:numeric="integer"
+     />
+ 
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_below="@+id/setting_open_tv"
+	    android:orientation="vertical"
+	    android:layout_margin="10dp"
+	    >
+	    <ListView 
+	        android:layout_width="fill_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:fastScrollEnabled="false"
+	        android:fadingEdge="none"
+	        android:id="@+id/file_list"
+	        ></ListView>
+	</LinearLayout> 
+</RelativeLayout>

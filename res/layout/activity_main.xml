@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zhuyan.newform.MainActivity" >
+
+    <ListView 
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fastScrollEnabled="false"
+        android:fadingEdge="none"
+        android:id="@+id/list"
+        ></ListView>
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="170dp"
+        android:layout_marginTop="5dp"
+        >
+        <TextView
+            android:id="@+id/notify"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="20sp"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/red"
+            />
+       <LinearLayout 
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+	       android:layout_alignParentBottom="true"
+	       android:layout_below="@+id/notify"
+           android:orientation="horizontal">
+            <ImageView android:layout_width="70dp"
+	            android:layout_height="70dp"
+	            android:src="@drawable/backg_1"
+	            android:id="@+id/add_one"
+	            android:layout_weight="1"/>
+	         <ImageView android:layout_width="70dp"
+	            android:layout_height="70dp"
+	            android:src="@drawable/backg_2"
+	            android:id="@+id/add_two" 
+	            android:layout_weight="1"/>
+	         <Button android:layout_width="wrap_content"
+	            android:layout_height="70dp"
+	            android:text="回退"
+	            android:layout_marginRight="10dp"
+	            android:textSize="25sp"
+	            android:id="@+id/del_btn"
+	            android:layout_weight="1"/>
+	         <Button android:layout_width="wrap_content"
+	            android:layout_height="70dp"
+	            android:text="复原"
+	            android:textSize="25sp"
+	            android:id="@+id/recover_btn"
+	            android:layout_weight="1"/>
+       </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

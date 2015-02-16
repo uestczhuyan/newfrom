@@ -4,10 +4,13 @@ package com.zhuyan.newform;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -40,6 +43,7 @@ public class MainActivity extends SherlockActivity implements OnClickListener,On
 	private Button recoveryBtn;
 	
 	private  Map<Integer, String> arrays = new HashMap<Integer, String>();
+	private List<Boolean> results = new ArrayList<Boolean>();
 	private MyAdapter adapter;
 	private SharedPreferences sharedPreferences;
 	private File contentFile;
@@ -119,13 +123,26 @@ public class MainActivity extends SherlockActivity implements OnClickListener,On
 			BufferedWriter writer = null;
 			try {
 				writer = new BufferedWriter(new FileWriter(contentFile));
-				for(int i=0;i<arrays.size();i++){
-					String s = arrays.get(i);
-					if( s!= null && s.length() > 0){
-						writer.write(s.toString(), 0, s.toString().length());
-						writer.newLine();
-						writer.flush();
+//				for(int i=0;i<arrays.size();i++){
+//					String s = arrays.get(i);
+//					if( s!= null && s.length() > 0){
+//						writer.write(s.toString(), 0, s.toString().length());
+//						writer.newLine();
+//						writer.flush();
+//					}
+//				}
+				StringBuilder sb = new StringBuilder();
+				for(Boolean b:results){
+					if(b){
+						sb.append("2");
+					}else{
+						sb.append("1");
 					}
+				}
+				if( sb!= null && sb.length() > 0){
+					writer.write(sb.toString(), 0, sb.toString().length());
+					writer.newLine();
+					writer.flush();
 				}
 				k=4;
 			}catch (Exception e) {
@@ -160,9 +177,11 @@ public class MainActivity extends SherlockActivity implements OnClickListener,On
 		
 		BufferedReader dr = null;
 		arrays.clear();
+		results.clear();
 		try {
-			dr = new BufferedReader(new FileReader(contentFile)); 
+			dr = new BufferedReader(new InputStreamReader(new FileInputStream(contentFile), "GBK")); 
 			String key = null;
+			String value = null;
 			int i =0;
 			StringBuilder builder = null;
 			while (true) {
@@ -170,8 +189,20 @@ public class MainActivity extends SherlockActivity implements OnClickListener,On
 				if(key == null){
 					break;
 				}
-				arrays.put(i, key);
+				System.out.println(key);
+				value = key;
+//				arrays.put(i, key);
 				i++;
+			}
+			
+			arrays.put(0, SettingShares.getPatch(sharedPreferences)+"");
+			for(i=0;i<value.length();i++){
+				System.out.println("cahr: "+i+"   value:"+value.charAt(i));
+				if(value.charAt(i) == '1'){
+					doWrong();
+				}else{
+					doRight();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -208,6 +239,9 @@ public class MainActivity extends SherlockActivity implements OnClickListener,On
 				break;
 			case R.id.del_btn:
 				arrays.remove(arrays.size() - 1);
+				if(results.size() > 0){
+					results.remove(results.size() - 1);
+				}
 				break;
 			case R.id.recover_btn:
 				arrays.clear();
@@ -221,7 +255,13 @@ public class MainActivity extends SherlockActivity implements OnClickListener,On
 	
 	private void doWrong() {
 		int size = arrays.size();
-		String value = arrays.get(size - 1);
+		String value =null;
+		if(size <=0){
+			 size = 1;
+			 value = SettingShares.getPatch(sharedPreferences)+"";
+		}else{
+			 value = arrays.get(size - 1);
+		}
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		String[] strs = value.split(",");
 		for(String str:strs){
@@ -234,12 +274,19 @@ public class MainActivity extends SherlockActivity implements OnClickListener,On
 		}else{
 			value = value + ","+list.get(0);
 		}
+		results.add(false);
 		arrays.put(size, value);
 	}
 
 	private void doRight() {
 		int size = arrays.size();
-		String value = arrays.get(size - 1);
+		String value =null;
+		if(size <=0){
+			 size = 1;
+			 value = SettingShares.getPatch(sharedPreferences)+"";
+		}else{
+			 value = arrays.get(size - 1);
+		}
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		String[] strs = value.split(",");
 		for(String str:strs){
@@ -257,6 +304,7 @@ public class MainActivity extends SherlockActivity implements OnClickListener,On
 			value = SettingShares.getPatch(sharedPreferences)+"";
 		}
 		arrays.put(size, value);
+		results.add(true);
 	}
 
 	private class MyAdapter extends BaseAdapter{
